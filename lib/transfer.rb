@@ -8,7 +8,29 @@ class Transfer
     @transfer_amount = transfer_amount
     @status = "pending"
 
-
   end
 
+  def valid?
+    sender.valid? &&  receiver.valid? && sender.balance >= self.transfer_amount
+    # do I need to check that sender's balance is ok? -- sender.balance >= sender.ba...
+  end
+
+  def execute_transaction
+    if self.valid?
+      sender.balance -= self.transfer_amount
+      receiver.balance += self.transfer_amount
+      self.status = "complete"
+    elsif !self.valid?
+      self.status = "rejected"
+      "Transaction rejected. Please check your account balance."
+    end
+  end
+
+  def reverse_transaction
+    if self.status = "complete"
+      self.status = "reversed"
+      sender.balance += self.transfer_amount
+      receiver.balance -= self.transfer_amount
+  end
+  
 end
