@@ -26,7 +26,7 @@ class Transfer
     end
   end
 
-  def reverse_transaction
+  def reverse_transfer
     if self.status = "complete"
       self.status = "reversed"
       sender.balance += self.amount
